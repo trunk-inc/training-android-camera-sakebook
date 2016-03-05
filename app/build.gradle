@@ -57,4 +57,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.adobe.creativesdk.foundation:auth:0.9.7'
+    compile 'com.adobe.creativesdk:image:4.4.8'
 }

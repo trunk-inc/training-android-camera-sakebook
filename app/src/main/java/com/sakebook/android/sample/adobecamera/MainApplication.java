@@ -2,13 +2,14 @@ package com.sakebook.android.sample.adobecamera;
 
 import android.app.Application;
 
+import com.adobe.creativesdk.aviary.IAviaryClientCredentials;
 import com.adobe.creativesdk.foundation.AdobeCSDKFoundation;
 import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
 
 /**
  * Created by sakemotoshinya on 16/03/05.
  */
-public class MainApplication extends Application implements IAdobeAuthClientCredentials {
+public class MainApplication extends Application implements IAviaryClientCredentials {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,5 +24,10 @@ public class MainApplication extends Application implements IAdobeAuthClientCred
     @Override
     public String getClientSecret() {
         return BuildConfig.CREATIVE_SDK_CLIENT_SECRET;
+    }
+
+    @Override
+    public String getBillingKey() {
+        return ""; // Leave this blank
     }
 }
