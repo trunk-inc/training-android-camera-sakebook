@@ -34,6 +34,13 @@ android {
     }
 }
 
+retrolambda {
+    jdk System.getenv("JAVA8_HOME")
+    javaVersion JavaVersion.VERSION_1_7
+    defaultMethods true
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
