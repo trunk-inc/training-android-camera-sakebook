@@ -1,7 +1,9 @@
-package com.sakebook.android.sample.adobecamera;
+package com.sakebook.android.sample.adobecamera.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.sakebook.android.sample.adobecamera.R;
 
 public class MainActivity extends AppCompatActivity {
 
