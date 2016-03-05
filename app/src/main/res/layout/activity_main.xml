@@ -11,7 +11,26 @@
     tools:context=".activities.MainActivity">
 
     <TextView
+        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:layout_alignParentTop="true"
+        android:text="下に結果が表示されます"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_result"
+        android:adjustViewBounds="true"
+        android:layout_below="@+id/text_title"
+        android:layout_above="@+id/button_launch_camera"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/button_launch_camera"
+        android:text="カメラ起動"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
