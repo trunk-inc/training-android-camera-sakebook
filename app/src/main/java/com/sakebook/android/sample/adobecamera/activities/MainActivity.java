@@ -25,9 +25,12 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_CAMERA = 100;
     public static final int REQUEST_CODE_EDITOR = 200;
 
+    public static final String TAG = "AdobeCamera";
+
     private Button button;
     private ImageView image;
     private Uri fileUri;
+    private Uri editedFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         image = (ImageView) findViewById(R.id.image_result);
+        image.setOnClickListener(v -> {
+            shareImage();
+        });
         button = (Button) findViewById(R.id.button_launch_camera);
         button.setOnClickListener(v -> {
-            // TODO launch camera
             launchCamera();
-
         });
     }
 
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         Intent imageEditorIntent = new AdobeImageIntent.Builder(this)
                 .setData(uri)
                 .build();
-        startActivityForResult(imageEditorIntent, 1);
+        startActivityForResult(imageEditorIntent, REQUEST_CODE_EDITOR);
     }
 
     private void launchCamera() {
@@ -72,16 +76,27 @@ public class MainActivity extends AppCompatActivity {
 //        startActivityForResult(intentCamera, 2);
     }
 
+    private void shareImage() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, editedFileUri);
+        shareIntent.setType("image/*");
+        // Launch sharing dialog for image
+        startActivity(Intent.createChooser(shareIntent, "Share Image"));
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_EDITOR:
-                    Uri editedImageUri = data.getData();
-                    image.setImageURI(editedImageUri);
+                    editedFileUri = data.getData();
+                    Log.d(TAG, "editedFileUri: " + editedFileUri);
+                    image.setImageURI(editedFileUri);
                     break;
                 case REQUEST_CODE_CAMERA:
 //                    Uri uri = data.getData();
+                    Log.d(TAG, "fileUri: " + fileUri);
                     launchEditor(fileUri);
                     break;
             }
@@ -104,14 +119,14 @@ public class MainActivity extends AppCompatActivity {
         // using Environment.getExternalStorageState() before doing this.
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+                Environment.DIRECTORY_PICTURES), TAG);
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
-                Log.d("MyCameraApp", "failed to create directory");
+                Log.d(TAG, "failed to create directory");
                 return null;
             }
         }
