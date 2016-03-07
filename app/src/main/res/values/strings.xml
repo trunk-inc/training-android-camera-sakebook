@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AdobeCamera</string>
+    <string name="share_title">画像をシェアしたい</string>
+    <string name="image_caution">加工した画像がありません</string>
 </resources>

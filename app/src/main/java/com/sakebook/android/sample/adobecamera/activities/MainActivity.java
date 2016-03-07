@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.adobe.creativesdk.aviary.AdobeImageIntent;
 import com.sakebook.android.sample.adobecamera.R;
@@ -32,16 +33,17 @@ public class MainActivity extends AppCompatActivity {
 
         image = (ImageView) findViewById(R.id.image_result);
         image.setOnClickListener(v -> {
+            if (editedFileUri == null) {
+                Toast.makeText(this, getString(R.string.image_caution), Toast.LENGTH_LONG).show();
+                return;
+            }
             shareImage();
         });
         button = (Button) findViewById(R.id.button_launch_camera);
-        button.setOnClickListener(v -> {
-            launchCamera();
-        });
+        button.setOnClickListener(v -> launchCamera());
     }
 
     private void launchEditor(Uri uri) {
-//        Uri imageUri = Uri.parse("https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png");
         Intent imageEditorIntent = new AdobeImageIntent.Builder(this)
                 .setData(uri)
                 .build();
@@ -49,28 +51,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchCamera() {
-        // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         fileUri = Util.getOutputMediaFileUri(Util.MEDIA_TYPE_IMAGE); // create a file to save the image
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-
-        // start the image capture Intent
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
-
-//        String filename = System.currentTimeMillis() + ".jpg";
-//        ContentValues values = new ContentValues();
-//        values.put(MediaStore.Images.Media.TITLE, filename);
-//        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-//        imageUri = getContentResolver()
-//                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-//        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//        startActivityForResult(intentCamera, 2);
     }
 
     /**
-     *
      * https://developer.android.com/intl/ja/training/sharing/send.html
      * */
     private void shareImage() {
@@ -78,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_STREAM, editedFileUri);
         shareIntent.setType("image/jpeg");
-        startActivity(Intent.createChooser(shareIntent, "Share Image"));
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
     }
 
     @Override
@@ -91,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     image.setImageURI(editedFileUri);
                     break;
                 case REQUEST_CODE_CAMERA:
-//                    Uri uri = data.getData();
                     Log.d(TAG, "fileUri: " + fileUri);
                     launchEditor(fileUri);
                     break;
