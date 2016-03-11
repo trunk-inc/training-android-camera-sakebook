@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.adobe.creativesdk.aviary.IAviaryClientCredentials;
 import com.adobe.creativesdk.foundation.AdobeCSDKFoundation;
-import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
 
 /**
  * Created by sakemotoshinya on 16/03/05.

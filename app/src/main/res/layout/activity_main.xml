@@ -26,11 +26,26 @@
         android:layout_above="@+id/button_launch_camera"
         android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/button_launch_camera"
-        android:text="カメラ起動"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_launch_camera"
+            android:text="カメラ起動"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_launch_gallery"
+            android:text="ギャラリーから選択"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 </RelativeLayout>

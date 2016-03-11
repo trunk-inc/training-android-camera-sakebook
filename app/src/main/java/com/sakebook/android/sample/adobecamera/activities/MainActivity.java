@@ -6,7 +6,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_CAMERA = 100;
     public static final int REQUEST_CODE_EDITOR = 200;
+    public static final int REQUEST_CODE_GALLERY = 300;
 
     public static final String TAG = "AdobeCamera";
 
-    private Button button;
     private ImageView image;
     private Uri fileUri;
     private Uri editedFileUri;
@@ -39,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
             }
             shareImage();
         });
-        button = (Button) findViewById(R.id.button_launch_camera);
-        button.setOnClickListener(v -> launchCamera());
+        findViewById(R.id.button_launch_camera).setOnClickListener(v -> launchCamera());
+        findViewById(R.id.button_launch_gallery).setOnClickListener(v -> launchGallery());
+
     }
 
     private void launchEditor(Uri uri) {
@@ -55,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         fileUri = Util.getOutputMediaFileUri(Util.MEDIA_TYPE_IMAGE); // create a file to save the image
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
+    }
+
+    private void launchGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
+
     }
 
     /**
@@ -79,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case REQUEST_CODE_CAMERA:
                     Log.d(TAG, "fileUri: " + fileUri);
+                    launchEditor(fileUri);
+                    break;
+                case REQUEST_CODE_GALLERY:
+                    Log.d(TAG, "fileUri: " + fileUri);
+                    fileUri = data.getData();
                     launchEditor(fileUri);
                     break;
             }
