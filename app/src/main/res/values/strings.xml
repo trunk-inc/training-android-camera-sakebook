@@ -2,4 +2,16 @@
     <string name="app_name">AdobeCamera</string>
     <string name="share_title">画像をシェアしたい</string>
     <string name="image_caution">加工した画像がありません</string>
+
+    <string name="text_caution">下に結果が表示されます</string>
+    <string name="launch_camera">カメラ起動</string>
+    <string name="launch_gallery">ギャラリーから選択</string>
+
+
+    <string name="snack_title">このアプリを使うには許可が必要です</string>
+    <string name="snack_action">開く</string>
+
+    <string name="dialog_title">許可が必要な項目の説明</string>
+    <string name="dialog_message">加工した画像を保存する際にストレージにアクセスします。</string>
+    <string name="dialog_ok">OK</string>
 </resources>

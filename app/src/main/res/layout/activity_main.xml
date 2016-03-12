@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="下に結果が表示されます"/>
+        android:text="@string/text_caution"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -23,26 +23,27 @@
         android:id="@+id/image_result"
         android:adjustViewBounds="true"
         android:layout_below="@+id/text_title"
-        android:layout_above="@+id/button_launch_camera"
+        android:layout_above="@+id/layout"
         android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:id="@+id/layout"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/button_launch_camera"
-            android:text="カメラ起動"
+            android:text="@string/launch_camera"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/button_launch_gallery"
-            android:text="ギャラリーから選択"
+            android:text="@string/launch_gallery"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
