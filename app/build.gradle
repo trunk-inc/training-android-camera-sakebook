@@ -2,19 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "com.sakebook.android.sample.adobecamera"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
 
         buildConfigField("String", "CREATIVE_SDK_CLIENT_ID", "${CREATIVE_SDK_CLIENT_ID}")
         buildConfigField("String", "CREATIVE_SDK_CLIENT_SECRET", "${CREATIVE_SDK_CLIENT_SECRET}")
+        manifestPlaceholders = [appPackageName: "${applicationId}"]
 
         if(rootProject.file('private.properties').exists()) {
             def props = new Properties()
@@ -43,19 +44,17 @@ android {
         exclude 'META-INF/DEPENDENCIES'
         pickFirst 'AndroidManifest.xml'
     }
-}
 
-retrolambda {
-    jdk System.getenv("JAVA8_HOME")
-    javaVersion JavaVersion.VERSION_1_7
-    defaultMethods true
+    dexOptions {
+        jumboMode true
+    }
 }
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.adobe.creativesdk.foundation:auth:0.9.7'
-    compile 'com.adobe.creativesdk:image:4.4.8'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.adobe.creativesdk.foundation:auth:0.9.125'
+    compile 'com.adobe.creativesdk:image:4.8.4'
+    compile 'com.localytics.android:library:3.8.0'
 }
