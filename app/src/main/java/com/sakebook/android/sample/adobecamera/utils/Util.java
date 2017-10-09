@@ -1,9 +1,13 @@
 package com.sakebook.android.sample.adobecamera.utils;
 
+import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.sakebook.android.sample.adobecamera.BuildConfig;
 import com.sakebook.android.sample.adobecamera.activities.MainActivity;
 
 import java.io.File;
@@ -24,14 +28,19 @@ public final class Util {
     /** Create a file Uri for saving an image or video
      * https://developer.android.com/intl/ja/guide/topics/media/camera.html#saving-media
      * */
-    public static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
+    public static Uri getOutputMediaFileUri(Context context, int type){
+        File file = getOutputMediaFile(type);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return Uri.fromFile(file);
+        } else  {
+            return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file);
+        }
     }
 
     /** Create a File for saving an image or video
      * https://developer.android.com/intl/ja/guide/topics/media/camera.html#saving-media
      * */
-    public static File getOutputMediaFile(int type){
+    private static File getOutputMediaFile(int type){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -41,12 +50,13 @@ public final class Util {
         // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
+        if (!mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
                 Log.d(MainActivity.TAG, "failed to create directory");
                 return null;
             }
         }
+        Log.d(MainActivity.TAG, "mediaStorageDir: " + mediaStorageDir.getAbsolutePath());
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());

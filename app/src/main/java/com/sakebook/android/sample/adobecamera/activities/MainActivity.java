@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = Util.getOutputMediaFileUri(Util.MEDIA_TYPE_IMAGE); // create a file to save the image
+        fileUri = Util.getOutputMediaFileUri(this, Util.MEDIA_TYPE_IMAGE); // create a file to save the image
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
@@ -171,17 +171,17 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_EDITOR:
-                    editedFileUri = data.getData();
-                    Log.d(TAG, "editedFileUri: " + editedFileUri);
+                    editedFileUri = data.getParcelableExtra(AdobeImageIntent.EXTRA_OUTPUT_URI);
+                    Log.d(TAG, "editor editedFileUri : " + editedFileUri);
                     image.setImageURI(editedFileUri);
                     break;
                 case REQUEST_CODE_CAMERA:
-                    Log.d(TAG, "fileUri: " + fileUri);
+                    Log.d(TAG, "camera fileUri: " + fileUri);
                     launchEditor(fileUri);
                     break;
                 case REQUEST_CODE_GALLERY:
-                    Log.d(TAG, "fileUri: " + fileUri);
                     fileUri = data.getData();
+                    Log.d(TAG, "gallery fileUri: " + fileUri);
                     launchEditor(fileUri);
                     break;
             }
