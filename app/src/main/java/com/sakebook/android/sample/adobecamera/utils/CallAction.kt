@@ -1,11 +1,10 @@
-package com.sakebook.android.sample.adobecamera.utils;
+package com.sakebook.android.sample.adobecamera.utils
 
 /**
  * Created by sakemotoshinya on 16/03/12.
  */
-public enum CallAction {
+enum class CallAction {
     Camera,
     Gallery,
     None
-    ;
 }
