@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -24,7 +23,7 @@ import android.widget.Toast
 import com.adobe.creativesdk.aviary.AdobeImageIntent
 import com.sakebook.android.sample.adobecamera.R
 import com.sakebook.android.sample.adobecamera.utils.CallAction
-import com.sakebook.android.sample.adobecamera.utils.Util
+import com.sakebook.android.sample.adobecamera.utils.FileUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -110,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        fileUri = Util.getOutputMediaFileUri(this, Util.MEDIA_TYPE_IMAGE) // create a file to save the image
+        fileUri = FileUtil.getOutputMediaFileUri(this, FileUtil.MEDIA_TYPE_IMAGE) // create a file to save the image
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri) // set the image file name
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
