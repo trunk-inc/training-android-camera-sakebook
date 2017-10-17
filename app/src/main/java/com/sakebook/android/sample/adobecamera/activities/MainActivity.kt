@@ -27,7 +27,7 @@ import com.sakebook.android.sample.adobecamera.utils.FileUtil
 
 class MainActivity : AppCompatActivity() {
 
-    private var image: ImageView? = null
+    private val image: ImageView by lazy { findViewById(R.id.image_result) as ImageView }
     private var fileUri: Uri? = null
     private var editedFileUri: Uri? = null
 
@@ -36,8 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        image = findViewById(R.id.image_result) as ImageView
-        image?.setOnClickListener { v ->
+        image.setOnClickListener { v ->
             if (editedFileUri == null) {
                 Toast.makeText(this, getString(R.string.image_caution), Toast.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -88,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 初回以外でここに来るときは設定へ促す。
-        Snackbar.make(image!!, getString(R.string.snack_title), Snackbar.LENGTH_LONG)
+        Snackbar.make(image, getString(R.string.snack_title), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.snack_action)) { v -> openSettings() }
                 .show()
     }
@@ -115,7 +114,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchGallery() {
-        val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_CODE_GALLERY)
     }
 
@@ -158,14 +158,14 @@ class MainActivity : AppCompatActivity() {
                 REQUEST_CODE_EDITOR -> {
                     editedFileUri = data?.getParcelableExtra(AdobeImageIntent.EXTRA_OUTPUT_URI)
                     Log.d(TAG, "editor editedFileUri : " + editedFileUri)
-                    image!!.setImageURI(editedFileUri)
+                    image.setImageURI(editedFileUri)
                 }
                 REQUEST_CODE_CAMERA -> {
                     Log.d(TAG, "camera fileUri: " + fileUri)
                     launchEditor(fileUri)
                 }
                 REQUEST_CODE_GALLERY -> {
-                    fileUri = data!!.data
+                    fileUri = data?.data
                     Log.d(TAG, "gallery fileUri: " + fileUri)
                     launchEditor(fileUri)
                 }
