@@ -17,6 +17,8 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 
@@ -27,7 +29,7 @@ import com.sakebook.android.sample.adobecamera.utils.FileUtil
 
 class MainActivity : AppCompatActivity() {
 
-    private val image: ImageView by lazy { findViewById(R.id.image_result) as ImageView }
+    private lateinit var image: ImageView
     private var fileUri: Uri? = null
     private var editedFileUri: Uri? = null
 
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        image = findViewById<ImageView>(R.id.image_result)
         image.setOnClickListener { v ->
             if (editedFileUri == null) {
                 Toast.makeText(this, getString(R.string.image_caution), Toast.LENGTH_LONG).show()
@@ -43,8 +46,8 @@ class MainActivity : AppCompatActivity() {
             }
             shareImage()
         }
-        findViewById(R.id.button_launch_camera).setOnClickListener { v -> checkPermission(CallAction.Camera) }
-        findViewById(R.id.button_launch_gallery).setOnClickListener { v -> checkPermission(CallAction.Gallery) }
+        findViewById<Button>(R.id.button_launch_camera).setOnClickListener { v -> checkPermission(CallAction.Camera) }
+        findViewById<Button>(R.id.button_launch_gallery).setOnClickListener { v -> checkPermission(CallAction.Gallery) }
 
         checkPermission(CallAction.None)
     }
@@ -194,4 +197,8 @@ class MainActivity : AppCompatActivity() {
 
         val TAG = "AdobeCamera"
     }
+}
+
+inline fun <T: View> AppCompatActivity.findViewById(resId: Int): T {
+    return findViewById(resId) as T
 }

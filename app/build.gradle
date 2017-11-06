@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.sakebook.android.sample.adobecamera"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -51,25 +50,39 @@ android {
     }
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+        resolutionStrategy.eachDependency { details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '25.3.1'
+                }
+            }
+        }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile ("com.android.support:appcompat-v7:25.3.1") {
+    compile ("com.android.support:appcompat-v7:26.1.0") {
         exclude group: 'com.android.support', module: 'cardview-v7'
     }
     compile ("com.android.support:multidex:1.0.1") {
         exclude group: 'com.android.support', module: 'cardview-v7'
     }
-    compile 'com.adobe.creativesdk.foundation:auth:0.9.1251'
-    compile 'com.adobe.creativesdk:image:4.8.4'
-    compile 'com.localytics.android:library:3.8.0'
+
+    compile ('com.adobe.creativesdk.foundation:auth:0.9.1251') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+    compile ('com.adobe.creativesdk:image:4.8.4') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+    compile 'com.localytics.android:library:4.0.1'
     compile ("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version") {
         exclude group: 'org.jetbrains', module: 'annotations'
     }
 }
 repositories {
     mavenCentral()
+    google()
 }
